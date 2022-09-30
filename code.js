@@ -28,6 +28,7 @@ var messageText;
 var lives = 3;
 var maxLives = 3;
 var livesCounter, livesIcon, livesCrop;
+var mysteryDoor;
 
 // preload game assets - runs once at start
 
@@ -92,6 +93,9 @@ function preload() {
   // game.load.image("heart-1", "/assets/environment/hearts-1.png");
   // game.load.image("heart-2", "/assets/environment/hearts-2.png");
   // game.load.image("heart-3", "/assets/environment/hearts-3.png");
+
+  // door
+  game.load.image("mystery-door", "/assets/environment/mystery-door.png");
 }
 
 // create game world - runs once after "preload" finished
@@ -240,6 +244,10 @@ function create() {
     egg.body.bounce.y = 0.3;
     // animations
   }
+
+  // NEXT LEVEL DOOR --------------------------------------
+  mysteryDoor = game.add.image(4935, 408, "mystery-door");
+  mysteryDoor.scale.setTo(2);
 
   // ENEMIES ------------------------------------------------
   // triceratops
