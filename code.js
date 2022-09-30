@@ -23,8 +23,11 @@ var healthBar;
 var barOutline;
 // var hearts;
 var messageText;
-var life = 0;
-var lifeText;
+// var life = 0;
+// var lifeText;
+var lives = 3;
+var maxLives = 3;
+var livesCounter, livesIcon, livesCrop;
 
 // preload game assets - runs once at start
 
@@ -72,13 +75,14 @@ function preload() {
   // pterasaur
   game.load.image("pterasaur", "/assets/pterasaur-spec.png");
 
-  // health bar
+  // health bar + lives
   game.load.image(
     "healthbar-outline",
     "/assets/environment/healthbar-outline.png"
   );
   game.load.image("green-bar", "/assets/environment/green-bar.png");
   game.load.image("red-bar", "/assets/environment/red-bar.png");
+  game.load.image("hearts", "/assets/environment/hearts-3.png");
   // game.load.spritesheet(
   //   "heart-meter",
   //   "/assets/environment/hearts-spritesheet.png",
@@ -295,16 +299,23 @@ function create() {
   player.body.collideWorldBounds = true;
   player.body.bounce.y = 0.1;
   // player animations
-  player.animations.add("right", [0, 1, 2, 3, 4, 5, 6], 6, true);
+  player.animations.add("left", [0, 1, 2, 3, 4, 5, 6], 6, true);
+  player.animations.add("right", [7, 8, 9, 10, 11, 12, 13], 6, true);
+  player.frame = 7;
   // player health
-  player.health = 3;
-  player.maxHealth = 3;
+  player.health = 10;
+  player.maxHealth = 10;
   // player reset after kill
   player.events.onKilled.add(function () {
-    player.reset(65, 300, 3);
+    player.reset(65, 300, 10);
+
+    player.frame = 7;
     brachiosaur.reset(3600, 200);
-    life += 1;
-    lifeText.text = "Life: " + life;
+    // life += 1;
+    // lifeText.text = "Life: " + life;
+    lives -= 1;
+    livesCrop.width = lives * livesIcon;
+    livesCounter.updateCrop();
   });
 
   // KEYBOARD INPUT -----------------------------------------
@@ -317,7 +328,7 @@ function create() {
   scoreText.setShadow(2, 2, "#000000", 4);
   scoreText.fixedToCamera = true;
 
-  // HEALTH BAR ---------------------------------------------
+  // HEALTH BAR + LIVES ---------------------------------------------
   var healthText = game.add.text(325, 20, "Health: ", { fill: "#ffffff" });
   healthText.setShadow(2, 2, "#000000", 4);
   healthText.fixedToCamera = true;
@@ -328,16 +339,33 @@ function create() {
   healthBar.fixedToCamera = true;
   barOutline.fixedToCamera = true;
 
+  // lifeText = game.add.text(800, 25, "Life: ", { fill: "#ffffff" });
+  // lifeText.setShadow(2, 2, "#000000", 4);
+  // lifeText.fixedToCamera = true;
+
+  livesCounter = game.add.image(880, 25, "hearts");
+  livesCounter.fixedToCamera = true;
+  var livesLabel = game.add.text(795, 20, "Lives: ", {
+    fill: "#ffffff",
+  });
+  livesLabel.setShadow(2, 2, "#000000", 4);
+  livesLabel.fixedToCamera = true;
+  livesIcon = livesCounter.width / maxLives;
+  livesCrop = new Phaser.Rectangle(
+    0,
+    0,
+    lives * livesIcon,
+    livesCounter.height
+  );
+  livesCounter.crop(livesCrop);
+
   // MESSAGE ------------------------------------------------
   messageText = game.add.text(500, 150, "", { fill: "#ffffff" });
   messageText.anchor.set(0.5, 0.5);
+  messageText.y = 300;
   messageText.setShadow(2, 2, "#000000", 4);
   messageText.fixedToCamera = true;
   // messageText.visible = false;
-
-  lifeText = game.add.text(800, 25, "Life: ", { fill: "#ffffff" });
-  lifeText.setShadow(2, 2, "#000000", 4);
-  lifeText.fixedToCamera = true;
 
   // TEMPORARY - distance markers
   game.add.text(500, 200, "500px --->", { fill: "yellow" });
@@ -392,11 +420,11 @@ function update() {
     // player animations "jump"
   }
   if (arrowKey.right.isDown) {
-    player.body.velocity.x = 200;
+    player.body.velocity.x = 250;
     player.animations.play("right");
   } else if (arrowKey.left.isDown) {
-    player.body.velocity.x = -200;
-    // player animations "left"
+    player.body.velocity.x = -220;
+    player.animations.play("left");
   } else {
     player.body.velocity.x = 0;
     player.animations.stop();
@@ -412,13 +440,26 @@ function update() {
   moveBrachiosaur(brachiosaur, player);
   // moveEnemyUp(brachiosaur);
 
-  movePterasaur(pterasaur1, 2);
-  movePterasaur(pterasaur2, 3);
+  movePterasaur(pterasaur1, 1.5);
+  movePterasaur(pterasaur2, 2.25);
   movePterasaur(pterasaur3, 5);
 
   if (score == 9) {
-    scoreText.text = "Eggs: :)";
-    messageText.text = "You've collected all of the eggs!";
+    messageText.text =
+      "You have collected all of the eggs! \n However, our princess is in another castle...";
+    messageText.align = "center";
+    messageText.visible = true;
+  }
+
+  if (lives == 0) {
+    messageText.y = 300;
+    messageText.text = "GAME OVER \n You are out of lives!";
+    messageText.visible = true;
+  }
+
+  if (player.x > 4900 && score < 9) {
+    messageText.text = "You cannot continue without all of the eggs!";
+    messageText.align = "center";
     messageText.visible = true;
   }
 }
@@ -450,7 +491,7 @@ function collectEgg(player, egg) {
 // damage overlap function
 function touchTriceratops(player, triceratops) {
   triceratops.body.velocity.x *= -1;
-  // triceratops.body.velocity.y = -250;
+  triceratops.body.velocity.y = -100;
   if (player.x < triceratops.x)
     (player.body.velocity.x = -250), (player.body.velocity.y = -300);
   else (player.body.velocity.x = 250), (player.body.velocity.y = -300);
@@ -471,12 +512,12 @@ function touchBrachiosaur(player, brachiosaur) {
 
 // damgge overlap function
 function touchPterasaur(player, pterasaur) {
-  pterasaur.body.velocity.x *= -1;
+  // pterasaur.body.velocity.x *= -1;
   // pterasaur.body.velocity.y = -250;
   if (player.x < pterasaur.x)
     (player.body.velocity.x = -250), (player.body.velocity.y = -300);
   else (player.body.velocity.x = 250), (player.body.velocity.y = -300);
-  player.damage(0.02);
+  player.damage(0.25);
   healthBar.scale.setTo(player.health / player.maxHealth, 1);
 }
 
@@ -484,7 +525,7 @@ function moveBrachiosaur(brachiosaur, player) {
   if (player.x > 2200 && brachiosaur.x > 3500) {
     brachiosaur.body.velocity.x = -350;
   } else if (brachiosaur.x < 2200) {
-    brachiosaur.body.velocity.x = 225;
+    brachiosaur.body.velocity.x = 200;
   }
 }
 
