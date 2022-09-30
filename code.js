@@ -23,6 +23,8 @@ var healthBar;
 var barOutline;
 // var hearts;
 var messageText;
+var life = 0;
+var lifeText;
 
 // preload game assets - runs once at start
 
@@ -301,13 +303,17 @@ function create() {
   player.events.onKilled.add(function () {
     player.reset(65, 300, 3);
     brachiosaur.reset(3600, 200);
+    life += 1;
+    lifeText.text = "Life: " + life;
   });
 
   // KEYBOARD INPUT -----------------------------------------
   arrowKey = game.input.keyboard.createCursorKeys();
 
   // SCORE --------------------------------------------------
-  scoreText = game.add.text(20, 20, "Eggs: " + score, { fill: "#ffffff" });
+  scoreText = game.add.text(20, 20, "Eggs: " + score + "/9", {
+    fill: "#ffffff",
+  });
   scoreText.setShadow(2, 2, "#000000", 4);
   scoreText.fixedToCamera = true;
 
@@ -323,11 +329,15 @@ function create() {
   barOutline.fixedToCamera = true;
 
   // MESSAGE ------------------------------------------------
-  messageText = game.add.text(800, 40, "Play Game", { fill: "#ffffff" });
+  messageText = game.add.text(500, 150, "", { fill: "#ffffff" });
   messageText.anchor.set(0.5, 0.5);
   messageText.setShadow(2, 2, "#000000", 4);
   messageText.fixedToCamera = true;
   // messageText.visible = false;
+
+  lifeText = game.add.text(800, 25, "Life: ", { fill: "#ffffff" });
+  lifeText.setShadow(2, 2, "#000000", 4);
+  lifeText.fixedToCamera = true;
 
   // TEMPORARY - distance markers
   game.add.text(500, 200, "500px --->", { fill: "yellow" });
@@ -405,6 +415,12 @@ function update() {
   movePterasaur(pterasaur1, 2);
   movePterasaur(pterasaur2, 3);
   movePterasaur(pterasaur3, 5);
+
+  if (score == 9) {
+    scoreText.text = "Eggs: :)";
+    messageText.text = "You've collected all of the eggs!";
+    messageText.visible = true;
+  }
 }
 
 // triceratops animation based on x veloctiy
@@ -417,7 +433,7 @@ function update() {
 function collectEgg(player, egg) {
   egg.kill();
   score += 1;
-  scoreText.text = "Eggs: " + score;
+  scoreText.text = "Eggs: " + score + "/9";
   // sound effect
 }
 
