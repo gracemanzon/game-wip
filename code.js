@@ -268,19 +268,22 @@ function create() {
   pterasaur1.scale.setTo(1.5);
   pterasaur1.anchor.set(0.5, 0.5);
   pterasaur1.angle -= 45;
+  game.physics.arcade.enable(pterasaur1);
 
   pterasaur2 = game.add.sprite(4980, -50, "pterasaur");
   pterasaur2.scale.setTo(1.5);
   pterasaur2.anchor.set(0.5, 0.5);
   pterasaur2.angle -= 45;
+  game.physics.arcade.enable(pterasaur2);
 
   pterasaur3 = game.add.sprite(5200, -50, "pterasaur");
   pterasaur3.scale.setTo(1.5);
   pterasaur3.anchor.set(0.5, 0.5);
   pterasaur3.angle -= 45;
+  game.physics.arcade.enable(pterasaur3);
 
   // PLAYER -------------------------------------------------
-  player = game.add.sprite(50, 300, "player");
+  player = game.add.sprite(65, 300, "player");
   player.anchor.set(0.5, 0.5);
   player.scale.setTo(1.5);
   game.camera.follow(player);
@@ -296,7 +299,7 @@ function create() {
   player.maxHealth = 3;
   // player reset after kill
   player.events.onKilled.add(function () {
-    player.reset(40, 300, 3);
+    player.reset(65, 300, 3);
     brachiosaur.reset(3600, 200);
   });
 
@@ -457,7 +460,7 @@ function touchPterasaur(player, pterasaur) {
   if (player.x < pterasaur.x)
     (player.body.velocity.x = -250), (player.body.velocity.y = -300);
   else (player.body.velocity.x = 250), (player.body.velocity.y = -300);
-  player.damage(0.1);
+  player.damage(0.02);
   healthBar.scale.setTo(player.health / player.maxHealth, 1);
 }
 
