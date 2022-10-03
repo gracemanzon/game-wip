@@ -34,68 +34,63 @@ var mysteryDoor;
 
 function preload() {
   // player
-  game.load.spritesheet(
-    "player",
-    "/assets/player-spec-spritesheet.png",
-    64,
-    34
-  );
+  game.load.spritesheet("player", "assets/player-spec-spritesheet.png", 64, 34);
 
   // background
-  game.load.image("sky", "/assets/environment/cloudy-sky.png");
+  game.load.image("sky", "assets/environment/cloudy-sky.png");
 
   // ground + platforms
-  game.load.image("platform-ground", "/assets/environment/ground-tile-64.png");
-  game.load.image("grass-wide-125", "/assets/environment/grass-wide-125.png");
-  game.load.image("grass-wide-250", "/assets/environment/grass-wide-250.png");
-  game.load.image("grass-64", "/assets/environment/grass-tile-64.png");
-  game.load.image("grass-xl-128", "/assets/environment/grass-xl-128.png");
+  game.load.image("platform-ground", "assets/environment/ground-tile-64.png");
+  game.load.image("grass-wide-125", "assets/environment/grass-wide-125.png");
+  game.load.image("grass-wide-250", "assets/environment/grass-wide-250.png");
+  game.load.image("grass-64", "assets/environment/grass-tile-64.png");
+  game.load.image("grass-xl-128", "assets/environment/grass-xl-128.png");
 
   // tree + bushes
-  game.load.image("tree-top", "/assets/environment/bush-platform-spec.png");
-  game.load.image("tree-full", "/assets/environment/tree-spec.png");
-  game.load.image("tree-short", "/assets/environment/bush-spec.png");
+  game.load.image("tree-top", "assets/environment/bush-platform-spec.png");
+  game.load.image("tree-full", "assets/environment/tree-spec.png");
+  game.load.image("tree-short", "assets/environment/bush-spec.png");
 
   // walls
-  game.load.image("grass-32", "/assets/environment/grass-tile-32.png");
-  game.load.image("grass-tall-64", "/assets/environment/grass-tall-64.png");
+  game.load.image("grass-32", "assets/environment/grass-tile-32.png");
+  game.load.image("grass-tall-64", "assets/environment/grass-tall-64.png");
   game.load.image(
     "grass-xl-tall-128",
-    "/assets/environment/grass-xl-tall-128.png"
+    "assets/environment/grass-xl-tall-128.png"
   );
 
   // eggs - change to spritesheet when adding animation frames
-  game.load.image("egg", "/assets/egg-spec.png");
+  game.load.image("egg", "assets/egg-spec.png");
 
   // triceratops
-  game.load.spritesheet("triceratops", "/assets/dino-spritesheet.png", 64, 36);
+  game.load.spritesheet("triceratops", "assets/dino-spritesheet.png", 64, 36);
 
   // brahciosaur
-  game.load.image("brachiosaur", "/assets/brachiosaur-spec.png");
+  game.load.image("brachiosaur", "assets/brachiosaur-spec.png");
 
   // pterasaur
-  game.load.image("pterasaur", "/assets/pterasaur-spec.png");
+  game.load.image("pterasaur", "assets/pterasaur-spec.png");
 
   // health bar + lives
   game.load.image(
     "healthbar-outline",
-    "/assets/environment/healthbar-outline.png"
+    "assets/environment/healthbar-outline.png"
   );
-  game.load.image("green-bar", "/assets/environment/green-bar.png");
-  game.load.image("red-bar", "/assets/environment/red-bar.png");
-  game.load.image("hearts", "/assets/environment/hearts-3.png");
+  game.load.image("green-bar", "assets/environment/green-bar.png");
+  game.load.image("red-bar", "assets/environment/red-bar.png");
+  game.load.image("hearts", "assets/environment/hearts-3.png");
   // game.load.spritesheet(
   //   "heart-meter",
-  //   "/assets/environment/hearts-spritesheet.png",
+  //   "assets/environment/hearts-spritesheet.png",
   //   100,
   //   26
   // );
-  // game.load.image("heart-1", "/assets/environment/hearts-1.png");
-  // game.load.image("heart-2", "/assets/environment/hearts-2.png");
-  // game.load.image("heart-3", "/assets/environment/hearts-3.png");
+  // game.load.image("heart-1", "assets/environment/hearts-1.png");
+  // game.load.image("heart-2", "assets/environment/hearts-2.png");
+  // game.load.image("heart-3", "assets/environment/hearts-3.png");
 
   // door
-  game.load.image("mystery-door", "/assets/environment/mystery-door.png");
+  game.load.image("mystery-door", "assets/environment/mystery-door.png");
 }
 
 // create game world - runs once after "preload" finished
