@@ -6,9 +6,9 @@ A browser based mini game is inspired by the 1998 iMac game Nanosaur. The player
 - Utilizes the Phaser 2 framework to build arcade physics and accept keyboard input
 - Features original artwork for spritesheets and tileset
 
-![screenshot](/assets/insnapx-preview2.png)
+![screenshot](/assets/preview/dinogame-screenshot.png)
 
-[Live Demo (arrowkey functions)](https://gracemanzon.github.io/game-wip/)
+[Live Demo](https://gracemanzon.github.io/game-wip/) - arrow key functions
 
 ## Roadmap
 
